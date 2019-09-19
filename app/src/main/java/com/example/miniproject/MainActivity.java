@@ -2,13 +2,17 @@ package com.example.miniproject;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.ViewPager;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -19,88 +23,78 @@ import com.google.firebase.auth.FirebaseAuth;
 public class MainActivity extends AppCompatActivity {
 
     EditText user,pass;
-    Button login,register;
+    Button register;
     private FirebaseAuth firebaseAuth;
-
+    Switch ss;
+    ViewPager vp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        user = findViewById(R.id.username);
-        pass = findViewById(R.id.password);
-        register = findViewById(R.id.register);
-        login = findViewById(R.id.login);
-        firebaseAuth = FirebaseAuth.getInstance();
+        vp = findViewById(R.id.viewPager);
+        ss = findViewById(R.id.switch1);
+        viewPagerClass vp1 = new viewPagerClass(getSupportFragmentManager());
+        vp.setAdapter(vp1);
 
-        register.setOnClickListener(new View.OnClickListener() {
+        ss.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                String u = user.getText().toString().trim();
-                String p = pass.getText().toString().trim();
-
-                if(TextUtils.isEmpty(u)) {
-
-                    Toast.makeText(MainActivity.this, "Please enter email", Toast.LENGTH_SHORT).show();
-                    return;
-
+                if(ss.isChecked())
+                {
+                    vp.setCurrentItem(1);
                 }
-                if(TextUtils.isEmpty(p)) {
-
-                    Toast.makeText(MainActivity.this, "Please enter password", Toast.LENGTH_SHORT).show();
-                    return;
-
+                else
+                {
+                    vp.setCurrentItem(0);
                 }
-                if(p.length()<6) {
-
-                    Toast.makeText(MainActivity.this, "Password too short", Toast.LENGTH_SHORT).show();
-
-                }
-
-                firebaseAuth.createUserWithEmailAndPassword(u, p)
-                        .addOnCompleteListener(MainActivity.this, new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()) {
-
-                                    Toast.makeText(MainActivity.this, "Registration Successful", Toast.LENGTH_SHORT).show();
-
-                                } else {
-
-                                    Toast.makeText(MainActivity.this, "Authentication Failed", Toast.LENGTH_SHORT).show();
-
-                                }
-
-                                // ...
-                            }
-                        });
             }
         });
 
-        login.setOnClickListener(new View.OnClickListener() {
+        /*final View touchView = findViewById(R.id.viewPager);
+        touchView.setOnTouchListener(new View.OnTouchListener()
+        {
             @Override
-            public void onClick(View view) {
+            public boolean onTouch(View v, MotionEvent event)
+            {
+                return true;
+            }
+        });*/
 
-                String u = user.getText().toString().trim();
-                String p = pass.getText().toString().trim();
+        vp.setPageTransformer(false, new ViewPager.PageTransformer() {
+            @Override
+            public void transformPage(@NonNull View page, float position) {
+                page.setCameraDistance(20000);
 
-                firebaseAuth.signInWithEmailAndPassword(u, p)
-                        .addOnCompleteListener(MainActivity.this, new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()) {
 
-                                    Toast.makeText(MainActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
+                if (position < -1) {     // [-Infinity,-1)
+                    // This page is way off-screen to the left.
+                    page.setAlpha(0);
 
-                                } else {
+                } else if (position <= 0) {    // [-1,0]
+                    page.setAlpha(1);
+                    page.setPivotX(page.getWidth());
+                    page.setRotationY(90 * Math.abs(position));
 
-                                    Toast.makeText(MainActivity.this, "Login failed", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });
+                } else if (position <= 1) {    // (0,1]
+                    page.setAlpha(1);
+                    page.setPivotX(0);
+                    page.setRotationY(-90 * Math.abs(position));
 
+                } else {    // (1,+Infinity]
+                    // This page is way off-screen to the right.
+                    page.setAlpha(0);
+
+                }
+
+
+                if (Math.abs(position) <= 0.5) {
+                    page.setScaleY(Math.max(.4f, 1 - Math.abs(position)));
+                } else if (Math.abs(position) <= 1) {
+                    page.setScaleY(Math.max(.4f, Math.abs(position)));
+
+                }
             }
         });
     }
