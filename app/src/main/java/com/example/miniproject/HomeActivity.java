@@ -10,7 +10,7 @@ import android.widget.VideoView;
 
 public class HomeActivity extends AppCompatActivity {
 
-    private static int SPLASH_TIME_OUT = 7000;
+    private static int SPLASH_TIME_OUT = 0000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
