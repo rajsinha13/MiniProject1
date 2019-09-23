@@ -14,6 +14,7 @@ android:id="@+id/drawer">
         android:background="@drawable/gradient"
         app:itemTextColor="#fff"
         app:menu="@menu/drawermenu"
+        android:id="@+id/nav"
         android:layout_gravity="start">
 
     </com.google.android.material.navigation.NavigationView>
