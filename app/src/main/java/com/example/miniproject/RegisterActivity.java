@@ -18,12 +18,16 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class RegisterActivity extends Fragment {
 
     EditText user,pass, confpass, name, phone;
     Button register;
     private FirebaseAuth firebaseAuth;
+    private DatabaseReference mdb;
 
     @Nullable
     @Override
@@ -45,17 +49,18 @@ public class RegisterActivity extends Fragment {
         phone = getView().findViewById(R.id.phone);
         register = getView().findViewById(R.id.register);
         firebaseAuth = FirebaseAuth.getInstance();
+        mdb = FirebaseDatabase.getInstance().getReference();
 //        private DatabaseReference mdb;
 
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                String u = user.getText().toString().trim();
-                String p = pass.getText().toString().trim();
-                String n = name.getText().toString().trim();
+                final String u = user.getText().toString().trim();
+                final String p = pass.getText().toString().trim();
+                final String n = name.getText().toString().trim();
                 String cp = confpass.getText().toString().trim();
-                String ph = phone.getText().toString().trim();
+                final String ph = phone.getText().toString().trim();
 
 
                 if(TextUtils.isEmpty(u)) {
@@ -73,15 +78,26 @@ public class RegisterActivity extends Fragment {
                 if(p.length()<6) {
 
                     Toast.makeText(getActivity(), "Password too short", Toast.LENGTH_SHORT).show();
+                    return;
 
                 }
+                if(!p.equals(cp)) {
+                    Toast.makeText(getActivity(), "Passwords do not match", Toast.LENGTH_SHORT).show();
+                    return;
 
+                }
                 firebaseAuth.createUserWithEmailAndPassword(u, p)
                         .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
 
+                                    mdb = FirebaseDatabase.getInstance().getReference();
+                                    firebaseAuth.signInWithEmailAndPassword(u, p);
+                                    users u1 = new users(n, ph);
+                                    FirebaseUser u2 = FirebaseAuth.getInstance().getCurrentUser();
+                                    String uid = u2.getUid();
+                                    mdb.child("users").child(uid).setValue(u1);
                                     Toast.makeText(getActivity(), "Registration Successful", Toast.LENGTH_SHORT).show();
 
                                 } else {
@@ -95,4 +111,20 @@ public class RegisterActivity extends Fragment {
             }
         });
     }
+
+    public class users {
+
+        public String name, phone;
+
+        public users() {
+
+        }
+
+        public users(String name, String phone) {
+            this.name = name;
+            this.phone = phone;
+        }
+    }
 }
+
+

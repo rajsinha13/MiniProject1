@@ -14,10 +14,10 @@
         android:background="#11000000"
         android:drawableLeft="@drawable/ic_action_user"
         android:ems="10"
-        android:hint="Username"
+        android:hint="Email Address"
         android:inputType="textPersonName"
-        android:textColorHint="#fff"
         android:textColor="#fff"
+        android:textColorHint="#808080"
         android:textSize="20dp" />
 
     <EditText
@@ -33,7 +33,7 @@
         android:ems="10"
         android:hint="Password"
         android:inputType="textPassword"
-        android:textColorHint="#fff"
+        android:textColorHint="#808080"
         android:textSize="20dp" />
 
     <Button
