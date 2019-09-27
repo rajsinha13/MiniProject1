@@ -5,8 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/gradient"
-    tools:context=".Preferences">
+    android:background="@drawable/gradient">
 
 
     <TextView
@@ -63,7 +62,7 @@
         android:layout_width="140dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
-        android:layout_marginLeft="150dp"
+        android:layout_marginLeft="180dp"
         android:layout_toRightOf="@+id/textView2"
         android:layout_below="@id/spinner1"/>
 

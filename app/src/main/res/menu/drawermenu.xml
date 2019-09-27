@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-<item android:id="@+id/pref" android:title="Preferences" android:icon="@drawable/ic_pref"/>
-<item android:id="@+id/lb" android:title="Leaderboard" android:icon="@drawable/ic_event"/>
-<item android:id="@+id/acc" android:title="My Account" android:icon="@drawable/ic_person"/>
-<item android:id="@+id/lo" android:title="Logout" android:icon="@drawable/ic_logout"/>
-</menu>

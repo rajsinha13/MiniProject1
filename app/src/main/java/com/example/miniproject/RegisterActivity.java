@@ -22,6 +22,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import es.dmoral.toasty.Toasty;
+
 public class RegisterActivity extends Fragment {
 
     EditText user,pass, confpass, name, phone;
@@ -65,24 +67,24 @@ public class RegisterActivity extends Fragment {
 
                 if(TextUtils.isEmpty(u)) {
 
-                    Toast.makeText(getActivity(), "Please enter email", Toast.LENGTH_SHORT).show();
+                    Toasty.info(getActivity(), "Please enter email", Toast.LENGTH_SHORT).show();
                     return;
 
                 }
                 if(TextUtils.isEmpty(p)) {
 
-                    Toast.makeText(getActivity(), "Please enter password", Toast.LENGTH_SHORT).show();
+                    Toasty.info(getActivity(), "Please enter password", Toast.LENGTH_SHORT).show();
                     return;
 
                 }
                 if(p.length()<6) {
 
-                    Toast.makeText(getActivity(), "Password too short", Toast.LENGTH_SHORT).show();
+                    Toasty.info(getActivity(), "Password too short", Toast.LENGTH_SHORT).show();
                     return;
 
                 }
                 if(!p.equals(cp)) {
-                    Toast.makeText(getActivity(), "Passwords do not match", Toast.LENGTH_SHORT).show();
+                    Toasty.error(getActivity(), "Passwords do not match", Toast.LENGTH_SHORT).show();
                     return;
 
                 }
@@ -98,11 +100,11 @@ public class RegisterActivity extends Fragment {
                                     FirebaseUser u2 = FirebaseAuth.getInstance().getCurrentUser();
                                     String uid = u2.getUid();
                                     mdb.child("users").child(uid).setValue(u1);
-                                    Toast.makeText(getActivity(), "Registration Successful", Toast.LENGTH_SHORT).show();
+                                    Toasty.success(getActivity(), "Registration Successful", Toast.LENGTH_SHORT).show();
 
                                 } else {
 
-                                    Toast.makeText(getActivity(), "Registration Failed", Toast.LENGTH_SHORT).show();
+                                    Toasty.error(getActivity(), "Registration Failed", Toast.LENGTH_SHORT).show();
 
                                 }
 

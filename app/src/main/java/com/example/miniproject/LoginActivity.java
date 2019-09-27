@@ -72,6 +72,7 @@ public class LoginActivity extends AppCompatActivity {
 
 package com.example.miniproject;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -89,6 +90,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+
+import es.dmoral.toasty.Toasty;
 
 public class LoginActivity extends Fragment {
 
@@ -116,7 +119,7 @@ public class LoginActivity extends Fragment {
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(final View view) {
 
                 String u = user.getText().toString().trim();
                 String p = pass.getText().toString().trim();
@@ -127,11 +130,13 @@ public class LoginActivity extends Fragment {
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
 
-                                    Toast.makeText(getActivity(), "Login Successful", Toast.LENGTH_SHORT).show();
+                                    Toasty.success(getActivity(), "Login Successful", Toast.LENGTH_SHORT).show();
+                                    Intent i=new Intent(view.getContext(),Preferences.class);
+                                    startActivity(i);
 
                                 } else {
 
-                                    Toast.makeText(getActivity(), "Login failed", Toast.LENGTH_SHORT).show();
+                                    Toasty.error(getActivity(), "Login failed", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="default_web_client_id" translatable="false">712249574075-s6m6ro9kal2jvil0v799qrqcep1jjfep.apps.googleusercontent.com</string>
+    <string name="firebase_database_url" translatable="false">https://miniproject-991f4.firebaseio.com</string>
+    <string name="gcm_defaultSenderId" translatable="false">712249574075</string>
+    <string name="google_api_key" translatable="false">AIzaSyCit-U7A3njmdrDn-54v4aVa_o_pUDrpsw</string>
+    <string name="google_app_id" translatable="false">1:712249574075:android:0337cc72a4daa4faf59f9e</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyCit-U7A3njmdrDn-54v4aVa_o_pUDrpsw</string>
+    <string name="google_storage_bucket" translatable="false">miniproject-991f4.appspot.com</string>
+    <string name="project_id" translatable="false">miniproject-991f4</string>
+</resources>
