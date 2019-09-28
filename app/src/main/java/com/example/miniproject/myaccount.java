@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
@@ -24,6 +26,7 @@ public class myaccount extends AppCompatActivity {
     DatabaseReference databaseReference;
     String userID;
     TextView name, phone, email, pass;
+    Button edit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +37,12 @@ public class myaccount extends AppCompatActivity {
         phone = findViewById(R.id.phone);
         email = findViewById(R.id.username);
         pass = findViewById(R.id.password);
+        edit = findViewById(R.id.edit);
+
+        name.setFocusable(false);
+        phone.setFocusable(false);
+        email.setFocusable(false);
+        pass.setFocusable(false);
 
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseDatabase = FirebaseDatabase.getInstance();
@@ -56,6 +65,29 @@ public class myaccount extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
+            }
+        });
+
+        edit.setOnClickListener(new View.OnClickListener() {
+            int flag = 1;
+            @Override
+            public void onClick(View view) {
+                if (flag == 1) {
+                    edit.setText("Confirm");
+                    name.setFocusableInTouchMode(true);
+                    phone.setFocusableInTouchMode(true);
+                    name.setFocusable(true);
+                    phone.setFocusable(true);
+                    flag = 0;
+                }
+                else if (flag == 0) {
+                    edit.setText("Edit");
+                    name.setFocusable(false);
+                    phone.setFocusable(false);
+                    users u1 = new users(name.getText().toString(), phone.getText().toString(), email.getText().toString(), pass.getText().toString());
+                    databaseReference.child("users").child(userID).setValue(u1);
+                    flag = 1;
+                }
             }
         });
 
