@@ -96,7 +96,7 @@ public class RegisterActivity extends Fragment {
 
                                     mdb = FirebaseDatabase.getInstance().getReference();
                                     firebaseAuth.signInWithEmailAndPassword(u, p);
-                                    users u1 = new users(n, ph);
+                                    users u1 = new users(n, ph, u, p);
                                     FirebaseUser u2 = FirebaseAuth.getInstance().getCurrentUser();
                                     String uid = u2.getUid();
                                     mdb.child("users").child(uid).setValue(u1);
@@ -112,20 +112,6 @@ public class RegisterActivity extends Fragment {
                         });
             }
         });
-    }
-
-    public class users {
-
-        public String name, phone;
-
-        public users() {
-
-        }
-
-        public users(String name, String phone) {
-            this.name = name;
-            this.phone = phone;
-        }
     }
 }
 

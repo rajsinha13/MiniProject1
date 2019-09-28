@@ -129,6 +129,7 @@ public class Navigation1 extends optionmenu implements NavigationView.OnNavigati
                 startActivity(new Intent(Navigation1.this,Preferences.class));
                 break;
             case R.id.logout:
+                startActivity(new Intent(Navigation1.this, MainActivity.class));
                 break;
         }
 
